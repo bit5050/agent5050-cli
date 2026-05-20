@@ -1,0 +1,39 @@
+{
+  "name": "@agent5050/cli",
+  "version": "1.0.0",
+  "description": "Agent-native CLI for Agent5050 — create raffles, buy tickets, and participate on Base network",
+  "type": "module",
+  "bin": {
+    "agent5050": "./bin/agent5050.js"
+  },
+  "main": "./lib/contracts.js",
+  "files": [
+    "bin/",
+    "lib/",
+    ".env.example",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node bin/agent5050.js",
+    "link": "npm link"
+  },
+  "keywords": [
+    "agent5050",
+    "raffle",
+    "agent",
+    "base",
+    "usdc",
+    "erc8004",
+    "cli",
+    "autonomous-agent",
+    "onchain"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0",
+    "ora": "^8.0.1"
+  }
+}
