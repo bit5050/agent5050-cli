@@ -96,7 +96,7 @@ agent5050 raffle 3 --json
 ```
 
 ### `agent5050 create <name> --duration <seconds>`
-Create a new raffle. Costs $5 USDC (auto-approves if needed).
+Create a new raffle. Costs $10.00 USDC (auto-approves if needed).
 ```bash
 agent5050 create "Friday Night Raffle" --duration 3600     # 1 hour
 agent5050 create "Weekend Special" --duration 86400         # 24 hours
@@ -104,7 +104,7 @@ agent5050 create "Quick Draw" --duration 300 --json         # 5 min, JSON output
 ```
 
 ### `agent5050 buy <raffleId> --qty <n>`
-Buy tickets for an active raffle. $1 USDC each (auto-approves if needed).
+Buy tickets for an active raffle. $2.50 USDC each (auto-approves if needed).
 ```bash
 agent5050 buy 1                # Buy 1 ticket
 agent5050 buy 3 --qty 10       # Buy 10 tickets for raffle #3
@@ -160,8 +160,8 @@ agent5050 agents --json
 ### `agent5050 x402-pay <endpoint>`
 Make an x402 payment to access a paid API endpoint. Handles the full 402 flow automatically.
 ```bash
-agent5050 x402-pay /api/raffles                   # $1.00 USDC
-agent5050 x402-pay /api/raffles/3                  # $0.50 USDC
+agent5050 x402-pay /api/raffles                   # $10.00 USDC (create raffle)
+agent5050 x402-pay /api/raffles/3                  # $2.50 USDC (buy tickets)
 agent5050 x402-pay /api/raffles/create -m POST -b '{"name":"My Raffle","duration":3600}'
 agent5050 x402-pay /api/raffles --json
 ```
@@ -236,18 +236,40 @@ import { formatUSDC } from '@agent5050/cli/lib/utils.js';
 
 ## Contract Details
 
-| | |
-|---|---|
-| **Network** | Base (Chain ID 8453) |
-| **Agent5050 Contract** | `0xA3b007b2654d06D4F2345A8033b0112E8e0f0Fce` |
-| **USDC** | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |
-| **Creation Fee** | $5.00 USDC |
-| **Ticket Price** | $1.00 USDC |
-| **Prize Split** | 50% winner / 50% creator |
-| **Min Duration** | 300 seconds (5 minutes) |
-| **Max Tickets/Tx** | 1,000 |
-| **Standard** | ERC-8004 (Agent Delegation) |
+Agent5050 is deployed across multiple EVM chains and non-EVM networks:
+
+### EVM Networks
+
+| Network | Chain ID | Agent5050 Contract | USDC Contract | USDC Decimals |
+|---------|----------|-------------------|---------------|---------------|
+| Base | 8453 | `0xa28C47DA1799A8f0ABaD876234cB4c211b4b4f4c` | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | 6 |
+| Arbitrum | 42161 | `0x244651072ac36b8F273511A4b1C9FbEd1Ab0AAB1` | `0xaf88d065e77c8cC2239327C5EDb3A432268e5831` | 6 |
+| Optimism | 10 | `0x244651072ac36b8F273511A4b1C9FbEd1Ab0AAB1` | `0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85` | 6 |
+| Linea | 59144 | `0x91d4fc3E072a658c14b2967E1cf99505737837A1` | `0x176211869cA2b568f2A7D4EE941E073a821EE1ff` | 6 |
+| Avalanche | 43114 | `0x2B42a40A7E97A0b7aFD4A78cC65A6c61d9D1FF94` | `0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E` | 6 |
+| Polygon | 137 | `0xd7A1723BFb5C0b0D04A0378E1a2F279A71051F94` | `0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359` | 6 |
+| BNB Chain | 56 | `0xDf46a1a17af3caa7ddb69d1033DEd7b22A4F59c5` | `0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d` | 18 |
+
+### Non-EVM Networks
+
+| Network | Contract/Package ID | Token | Notes |
+|---------|-------------------|-------|-------|
+| Sui | `0xe1c5a7fd36b3469896f6fdd37b1ad6a92bf8e917caeaccd129d7589651dd07e9` | USDC | Move package, not EVM |
+| Solana | `hgVRaioWKyrFe7fYduJbMdFy8h2S6ukTuLUZhD1UG11` | USDC | Solana program |
+| Polkadot Hub | `0xd7A1723BFb5C0b0D04A0378E1a2F279A71051F94` | USDC (Asset ID 1337) | Asset Hub, Chain ID 420420419 |
+| HYPE (HyperEVM) | `0xd7A1723BFb5C0b0D04A0378E1a2F279A71051F94` | USDC | Chain ID 999 |
+
+### Common Configuration
+
+- **Platform Wallet**: `0x68388030BD627872EBD5C5Bb9dA42F59c9a82300`
+- **Creation Fee**: $10.00 USDC (most networks)
+- **Ticket Price**: $2.50 USDC (most networks)
+- **Prize Split**: 50% winner / 50% creator
+- **Min Duration**: 300 seconds (5 minutes)
+- **Max Tickets/Tx**: Unlimited
+- **Standard**: ERC-8004 (Agent Delegation) for EVM networks
 
 ## License
 
 MIT
+# agent5050-cli
